@@ -1,3 +1,5 @@
+import kotlin.math.pow
+
 interface Shape {
     var area: Double
     var perimeter: Double
@@ -12,29 +14,30 @@ open class Rectangle(var a: Double, var b: Double): Shape {
         get() = (this.a + this.b) * 2
 }
 
-class Square(border: Double) : Rectangle(border, border) {
-    var border = 0.0
+class Square(side: Double) : Rectangle(side, side) {
+    var side = 0.0
         set(value){
+            field = value
             super.b = value
             super.a = value
-            field = value
         }
 }
 
-fun main() {
-    var rectangle = Rectangle(2.0, 3.0)
+class Triangle(var a: Double, var b: Double, var c: Double): Shape {
 
-//    println(rectangle.area)
-
-    var square = Square(2.0)
-
-    println(square.area)
-    println(square.perimeter)
-
-    square.border = 4.0
-
-    println(square.area)
-    println(square.perimeter)
-
-
+    override var perimeter = 0.0
+        get() = this.a + this.b + this.c
+    override var area = 0.0
+        get() {
+            val p = perimeter / 2
+            return (p * (p - a) * (p - b) * (p - c)).pow(0.5)
+        }
 }
+class Circle(var r:Double): Shape{
+    override var area = 0.0
+        get() = kotlin.math.PI *  r.pow(2)
+
+    override var perimeter = 0.0
+        get() = 2 * kotlin.math.PI * r
+}
+
